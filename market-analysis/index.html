@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Vitacodex — Análise de Mercado Genômico</title>
+<style>
+:root {
+  --bg: #f4f5f5; --panel: #ffffff; --panel-soft: #eef2f0; --text: #111111;
+  --muted: #5f6865; --border: #dbe3df; --green: #18c56e; --green-dark: #0f8e57;
+  --orange: #f28a22; --purple: #b846ff; --blue: #3f6df6; --teal: #12b9b2;
+  --red: #e45858; --shadow: 0 10px 30px rgba(16,24,20,.06);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Inter, ui-sans-serif, system-ui, sans-serif; background: linear-gradient(180deg,#f6f7f7,#f1f5f3); color: var(--text); }
+a { color: inherit; text-decoration: none; }
+.page { max-width: 1360px; margin: 0 auto; padding: 28px 28px 60px; }
+.topbar { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-bottom: 28px; }
+.brand { font-size: 32px; letter-spacing: -0.05em; font-weight: 400; }
+.brand .vita { color: var(--green); } .brand .codex { color: #0b0b0b; }
+.nav { display: flex; gap: 10px; flex-wrap: wrap; }
+.nav-link { padding: 10px 14px; border-radius: 999px; border: 1px solid var(--border); background: rgba(255,255,255,.8); font-size: 12px; font-weight: 700; color: var(--muted); transition: .15s; }
+.nav-link:hover { background: var(--panel-soft); color: var(--text); }
+.nav-link.active { background: var(--green); color: white; border-color: var(--green); }
+.card { background: var(--panel); border: 1px solid var(--border); border-radius: 28px; box-shadow: var(--shadow); }
+.page-hero { padding: 32px 36px; margin-bottom: 18px; }
+.eyebrow { display: inline-flex; align-items: center; background: #e8f7ee; color: var(--green-dark); border-radius: 999px; padding: 7px 12px; font-size: 12px; font-weight: 700; margin-bottom: 16px; }
+h1 { font-size: 42px; line-height: 0.97; letter-spacing: -0.05em; margin-bottom: 12px; }
+.hero-sub { font-size: 15px; line-height: 1.7; color: var(--muted); max-width: 68ch; }
+.kpi-strip { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 18px; }
+.kpi { background: var(--panel-soft); border: 1px solid var(--border); border-radius: 18px; padding: 14px 16px; }
+.kpi .lbl { font-size: 11px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; margin-bottom: 4px; }
+.kpi .val { font-size: 26px; font-weight: 500; letter-spacing: -0.04em; line-height: 1; }
+.kpi .sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
+.k1 .val { color: var(--green-dark); } .k2 .val { color: var(--blue); } .k3 .val { color: var(--orange); } .k4 .val { color: var(--purple); }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px; }
+.grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 18px; }
+.section-card { padding: 22px 24px; }
+.sh { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+.sh h2 { font-size: 22px; letter-spacing: -0.04em; }
+.sh span { font-size: 12px; color: var(--muted); }
+.feat-table { display: grid; gap: 0; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+.feat-row { display: grid; grid-template-columns: 200px repeat(4,1fr); gap: 0; border-bottom: 1px solid var(--border); }
+.feat-row:last-child { border-bottom: none; }
+.feat-row.header { background: var(--panel-soft); font-size: 12px; font-weight: 700; }
+.fc { padding: 10px 12px; font-size: 13px; color: var(--muted); border-right: 1px solid var(--border); }
+.fc:last-child { border-right: none; }
+.fc.name { font-weight: 600; color: var(--text); font-size: 12px; }
+.fc.vita { background: #f0fdf6; color: var(--green-dark); font-weight: 600; }
+.fc.yes { color: var(--green-dark); font-weight: 600; }
+.fc.no { color: #bbb; }
+.fc.partial { color: var(--orange); }
+.strength-item { border: 1px solid var(--border); border-left: 4px solid var(--green); border-radius: 16px; padding: 14px 16px; background: #fcfffd; margin-bottom: 10px; }
+.strength-item.orange { border-left-color: var(--orange); }
+.strength-item.blue { border-left-color: var(--blue); }
+.strength-item.purple { border-left-color: var(--purple); }
+.strength-item.teal { border-left-color: var(--teal); }
+.strength-item h4 { font-size: 15px; margin-bottom: 5px; }
+.strength-item p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+.gap-item { border: 1px solid var(--border); border-left: 4px solid var(--red); border-radius: 16px; padding: 14px 16px; background: #fff9f9; margin-bottom: 10px; }
+.gap-item.orange { border-left-color: var(--orange); }
+.gap-item h4 { font-size: 15px; margin-bottom: 5px; }
+.gap-item p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+.map-box { background: white; border: 1px solid var(--border); border-radius: 20px; padding: 24px; position: relative; min-height: 340px; }
+.map-axis-x { position: absolute; bottom: 20px; left: 60px; right: 20px; height: 1px; background: var(--border); }
+.map-axis-y { position: absolute; left: 60px; top: 20px; bottom: 40px; width: 1px; background: var(--border); }
+.map-label-x { position: absolute; bottom: 6px; right: 24px; font-size: 11px; color: var(--muted); font-weight: 600; }
+.map-label-y { position: absolute; left: 8px; top: 50%; transform: rotate(-90deg) translateX(-50%); transform-origin: left center; font-size: 11px; color: var(--muted); font-weight: 600; white-space: nowrap; }
+.map-dot { position: absolute; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: white; cursor: default; }
+.map-dot-label { position: absolute; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.quad-label { position: absolute; font-size: 10px; color: var(--border); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+.tail-band { background: #f0fdf6; border: 1px solid #c3e8d3; border-radius: 16px; padding: 16px 20px; margin-bottom: 18px; }
+.tail-band p { font-size: 14px; color: var(--green-dark); line-height: 1.65; }
+.market-bar-row { display: grid; grid-template-columns: 130px 1fr 56px; gap: 10px; align-items: center; margin-bottom: 9px; }
+.bar-bg { height: 8px; background: var(--panel-soft); border-radius: 4px; overflow: hidden; }
+.bar-fill { height: 8px; border-radius: 4px; }
+@media (max-width: 900px) { .grid2,.grid3 { grid-template-columns: 1fr; } .kpi-strip { grid-template-columns: repeat(2,1fr); } .feat-row { grid-template-columns: 120px repeat(4,1fr); } }
+</style>
+</head>
+<body>
+<div class="page">
+
+<header class="topbar">
+  <div class="brand"><span class="vita">vita</span><span class="codex">codex</span></div>
+  <nav class="nav">
+    <a class="nav-link" href="/">Roadmap</a>
+    <a class="nav-link active" href="/market-analysis">Mercado</a>
+    <a class="nav-link" href="/backend-analysis">Backend</a>
+    <a class="nav-link" href="/roadmap-vs-backend">Gaps & Prioridades</a>
+  </nav>
+</header>
+
+<div class="card page-hero">
+  <div class="eyebrow">Análise de mercado · genômica aplicada</div>
+  <h1>Vitacodex num mercado de US$35B com uma categoria vazia.</h1>
+  <p class="hero-sub">Todos os concorrentes são produtos de relatório. Vitacodex é o primeiro sistema de decisão contínua baseado em genética. O quadrante "alto dado + alta ação" não tem ocupante.</p>
+</div>
+
+<div class="kpi-strip">
+  <div class="kpi k1"><div class="lbl">Mercado global genômica</div><div class="val">$35B</div><div class="sub">CAGR ~18% ao ano</div></div>
+  <div class="kpi k2"><div class="lbl">Segmento DTC</div><div class="val">$3.8B</div><div class="sub">Consumidor final</div></div>
+  <div class="kpi k3"><div class="lbl">Health tech personalizada</div><div class="val">$12B</div><div class="sub">Adjacência de maior crescimento</div></div>
+  <div class="kpi k4"><div class="lbl">Usuários 23andMe (órfãos)</div><div class="val">14M+</div><div class="sub">Maior base de DNA sem destino</div></div>
+</div>
+
+<div class="tail-band">
+  <p>A 23andMe entrou em falência em 2025 com 14M+ usuários que já têm seus dados e não têm produto. O modelo import-first do Vitacodex — que ingere arquivos 23andMe/AncestryDNA existentes sem exigir novo kit — captura essa janela sem custo de aquisição de DNA.</p>
+</div>
+
+<div class="grid2">
+  <div class="card section-card">
+    <div class="sh"><h2>Feature matrix</h2><span>comparativo honesto</span></div>
+    <div class="feat-table">
+      <div class="feat-row header">
+        <div class="fc name">Feature</div>
+        <div class="fc">23andMe</div>
+        <div class="fc">CircleDNA</div>
+        <div class="fc">Nebula</div>
+        <div class="fc vita">Vitacodex</div>
+      </div>
+      <div class="feat-row"><div class="fc name">Coleta de DNA</div><div class="fc">Kit saliva</div><div class="fc">Kit saliva</div><div class="fc">WGS kit</div><div class="fc vita no">Import de arquivo</div></div>
+      <div class="feat-row"><div class="fc name">Relatórios estáticos</div><div class="fc yes">✓ 100+</div><div class="fc yes">✓ 500+</div><div class="fc yes">✓ Profundos</div><div class="fc vita no">✗ Não é modelo de relatório</div></div>
+      <div class="feat-row"><div class="fc name">Cluster de SNPs</div><div class="fc no">✗</div><div class="fc no">✗</div><div class="fc no">✗</div><div class="fc vita yes">✓ 6 clusters biológicos</div></div>
+      <div class="feat-row"><div class="fc name">Score de confiança</div><div class="fc no">✗</div><div class="fc no">✗</div><div class="fc no">✗</div><div class="fc vita yes">✓ Por cluster</div></div>
+      <div class="feat-row"><div class="fc name">Integração laboratorial</div><div class="fc no">✗</div><div class="fc partial">Limitado</div><div class="fc partial">Parcial</div><div class="fc vita yes">✓ Core (Clinical Sync)</div></div>
+      <div class="feat-row"><div class="fc name">Contexto semanal</div><div class="fc no">✗</div><div class="fc no">✗</div><div class="fc no">✗</div><div class="fc vita yes">✓ Sinais semana a semana</div></div>
+      <div class="feat-row"><div class="fc name">Engine de metas</div><div class="fc no">✗</div><div class="fc partial">Dicas básicas</div><div class="fc no">✗</div><div class="fc vita yes">✓ Target module</div></div>
+      <div class="feat-row"><div class="fc name">Modelagem de incerteza</div><div class="fc no">✗</div><div class="fc no">✗</div><div class="fc no">✗</div><div class="fc vita yes">✓ Primary / Exploratory</div></div>
+      <div class="feat-row"><div class="fc name">Atualização contínua</div><div class="fc no">✗</div><div class="fc no">✗</div><div class="fc partial">Parcial</div><div class="fc vita yes">✓ Modelo core</div></div>
+      <div class="feat-row"><div class="fc name">Pipeline nativo de DNA</div><div class="fc yes">✓ Kit completo</div><div class="fc yes">✓ Kit completo</div><div class="fc yes">✓ WGS completo</div><div class="fc vita no">✗ Ainda não construído</div></div>
+      <div class="feat-row"><div class="fc name">Validação clínica</div><div class="fc yes">✓ FDA review</div><div class="fc partial">Parcial</div><div class="fc partial">Parcial</div><div class="fc vita no">✗ Lógica de protótipo</div></div>
+    </div>
+  </div>
+
+  <div>
+    <div class="card section-card" style="margin-bottom:14px;">
+      <div class="sh"><h2>Mapa de posicionamento</h2><span>profundidade de dado × valor de decisão</span></div>
+      <div class="map-box">
+        <div class="map-axis-x"></div>
+        <div class="map-axis-y"></div>
+        <div class="map-label-x">Profundidade de dado →</div>
+        <div class="map-label-y">← Valor de decisão</div>
+        <div class="quad-label" style="top:28px;left:68px;">baixo dado, baixa ação</div>
+        <div class="quad-label" style="top:28px;right:16px;">alto dado, baixa ação</div>
+        <div class="quad-label" style="bottom:48px;left:68px;">baixo dado, alta ação</div>
+        <div class="quad-label" style="bottom:48px;right:16px;color:#18c56e;">categoria vazia →</div>
+        <div class="map-dot" style="width:40px;height:40px;background:#888;top:58%;left:14%;">23a</div>
+        <div class="map-dot-label" style="top:calc(58% + 44px);left:10%;">23andMe</div>
+        <div class="map-dot" style="width:38px;height:38px;background:#888;top:52%;left:28%;">CD</div>
+        <div class="map-dot-label" style="top:calc(52% + 42px);left:24%;">CircleDNA</div>
+        <div class="map-dot" style="width:42px;height:42px;background:#7c31b2;top:60%;right:22%;">Neb</div>
+        <div class="map-dot-label" style="top:calc(60% + 46px);right:16%;">Nebula</div>
+        <div class="map-dot" style="width:52px;height:52px;background:#18c56e;top:12%;right:14%;">VC</div>
+        <div class="map-dot-label" style="top:calc(12% + 56px);right:10%;color:var(--green-dark);font-size:12px;">Vitacodex</div>
+      </div>
+    </div>
+    <div class="card section-card">
+      <div class="sh"><h2>Share de mercado DTC (est. 2024)</h2><span></span></div>
+      <div class="market-bar-row"><span style="font-size:13px;font-weight:600;">23andMe</span><div class="bar-bg"><div class="bar-fill" style="width:52%;background:#888780;"></div></div><span style="font-size:13px;font-weight:500;color:#444;">52%</span></div>
+      <div class="market-bar-row"><span style="font-size:13px;font-weight:600;">AncestryDNA</span><div class="bar-bg"><div class="bar-fill" style="width:28%;background:#378ADD;"></div></div><span style="font-size:13px;font-weight:500;color:#185FA5;">28%</span></div>
+      <div class="market-bar-row"><span style="font-size:13px;font-weight:600;">CircleDNA</span><div class="bar-bg"><div class="bar-fill" style="width:8%;background:#7F77DD;"></div></div><span style="font-size:13px;font-weight:500;color:#534AB7;">8%</span></div>
+      <div class="market-bar-row"><span style="font-size:13px;font-weight:600;">Nebula + outros</span><div class="bar-bg"><div class="bar-fill" style="width:7%;background:#BA7517;"></div></div><span style="font-size:13px;font-weight:500;color:#854F0B;">7%</span></div>
+      <div class="market-bar-row"><span style="font-size:13px;font-weight:600;color:var(--green-dark);">Categoria Vitacodex</span><div class="bar-bg"><div class="bar-fill" style="width:3%;background:#18c56e;"></div></div><span style="font-size:13px;font-weight:500;color:var(--green-dark);">0% → ?</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="grid2">
+  <div class="card section-card">
+    <div class="sh"><h2>O que está genuinamente forte no conceito</h2><span>forças reais, não de marketing</span></div>
+    <div class="strength-item"><h4>Arquitetura de clusters em vez de lista de SNPs</h4><p>Agrupar SNPs em 6 clusters funcionais é a abstração certa. Nenhum concorrente faz isso. Resolve o "problema dos 500 relatórios" tornando significado — não volume — o produto.</p></div>
+    <div class="strength-item blue"><h4>O loop de feedback é o produto</h4><p>DNA → Clinical Sync → Target → sinal semanal → atualização. Um sistema fechado, não um relatório único. Cria retenção que nenhum produto baseado em relatório consegue.</p></div>
+    <div class="strength-item purple"><h4>Modelagem explícita de incerteza</h4><p>"Genética sem exame = hipótese, exame + cluster = confiança." Honesto cientificamente e raro competitivamente. Mais defensável frente a escrutínio regulatório.</p></div>
+    <div class="strength-item orange"><h4>Zero dependência de kit novo</h4><p>Ingere arquivos 23andMe/AncestryDNA existentes. Custo de aquisição de DNA = zero. Janela direta para os 14M+ usuários órfãos pós-falência da 23andMe.</p></div>
+    <div class="strength-item teal"><h4>Framing temporal (estado semanal)</h4><p>Sinais como "semana 15" em vez de scores de risco estáticos. Genômica de fato contextual — não um fato histórico sobre o seu DNA.</p></div>
+  </div>
+
+  <div class="card section-card">
+    <div class="sh"><h2>Gaps que precisam de resposta antes do lançamento</h2><span>riscos reais</span></div>
+    <div class="gap-item"><h4>Pipeline nativo de DNA ainda não existe</h4><p>Parsing de arquivo 23andMe (.txt), normalização de rsIDs, filtragem de qualidade — nada disso está construído. É a fundação de dados sem a qual o produto não onborda usuários.</p></div>
+    <div class="gap-item orange"><h4>Problema de cold start</h4><p>Um usuário que sobe o arquivo sem exames precisa de valor imediato. Se o sistema esperar labs + DNA para dar o primeiro sinal confiante, a retenção early quebra antes de começar.</p></div>
+    <div class="gap-item orange"><h4>Ausência de camada de credibilidade</h4><p>Concorrentes usam "ciência de laboratório" e revisão FDA como selos. Vitacodex ainda não tem conselho científico, metodologia publicada ou validação externa visível.</p></div>
+    <div class="gap-item"><h4>Estratégia regulatória não definida</h4><p>O produto navega entre "não é diagnóstico" e orientação de saúde acionável. ANVISA, FDA e CE definem essa linha de formas distintas. É um teto de escala, não um risco de lançamento — mas precisa de planejamento.</p></div>
+  </div>
+</div>
+
+<div class="grid3">
+  <div class="card section-card">
+    <div class="sh"><h2>Tailwind 1</h2><span></span></div>
+    <p style="font-size:13px;color:var(--muted);line-height:1.65;"><strong style="display:block;margin-bottom:6px;font-size:15px;">Falência da 23andMe (2025)</strong>14M usuários com arquivos de DNA que não têm mais produto. O modelo import-first do Vitacodex é exatamente o que eles precisam — e não há incumbente oferecendo isso.</p>
+  </div>
+  <div class="card section-card">
+    <div class="sh"><h2>Tailwind 2</h2><span></span></div>
+    <p style="font-size:13px;color:var(--muted);line-height:1.65;"><strong style="display:block;margin-bottom:6px;font-size:15px;">Saúde preventiva como padrão</strong>Gasto em saúde migra de tratamento para prevenção e otimização. "Biologia como contexto contínuo" é o modelo premium — e é exatamente o que Vitacodex propõe.</p>
+  </div>
+  <div class="card section-card">
+    <div class="sh"><h2>Tailwind 3</h2><span></span></div>
+    <p style="font-size:13px;color:var(--muted);line-height:1.65;"><strong style="display:block;margin-bottom:6px;font-size:15px;">LLMs prontos para interpretação genômica</strong>Linguagem natural para explicar achados genéticos é produção-ready. A decisão de design "linguagem humana sobre estatística crua" que o Vitacodex já tomou é a certa — e a tecnologia para escalar existe.</p>
+  </div>
+</div>
+
+</div>
+</body>
+</html>

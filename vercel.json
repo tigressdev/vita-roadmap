@@ -1,0 +1,9 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    { "source": "/market-analysis", "destination": "/market-analysis/index.html" },
+    { "source": "/backend-analysis", "destination": "/backend-analysis/index.html" },
+    { "source": "/roadmap-vs-backend", "destination": "/roadmap-vs-backend/index.html" }
+  ]
+}

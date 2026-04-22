@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Vitacodex — Roadmap vs. Gaps Reais</title>
+<style>
+:root {
+  --bg:#f4f5f5;--panel:#fff;--panel-soft:#eef2f0;--text:#111;--muted:#5f6865;
+  --border:#dbe3df;--green:#18c56e;--gd:#0f8e57;--orange:#f28a22;--blue:#3f6df6;
+  --teal:#12b9b2;--red:#e45858;--purple:#b846ff;--shadow:0 10px 30px rgba(16,24,20,.06);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Inter,ui-sans-serif,system-ui,sans-serif;background:linear-gradient(180deg,#f6f7f7,#f1f5f3);color:var(--text)}
+a{color:inherit;text-decoration:none}
+.page{max-width:1360px;margin:0 auto;padding:28px 28px 60px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-bottom:28px}
+.brand{font-size:32px;letter-spacing:-0.05em;font-weight:400}
+.brand .vita{color:var(--green)}.brand .codex{color:#0b0b0b}
+.nav{display:flex;gap:10px;flex-wrap:wrap}
+.nav-link{padding:10px 14px;border-radius:999px;border:1px solid var(--border);background:rgba(255,255,255,.8);font-size:12px;font-weight:700;color:var(--muted);transition:.15s}
+.nav-link:hover{background:var(--panel-soft);color:var(--text)}
+.nav-link.active{background:var(--green);color:white;border-color:var(--green)}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:28px;box-shadow:var(--shadow)}
+.page-hero{padding:32px 36px;margin-bottom:18px}
+.eyebrow{display:inline-flex;background:#e8f7ee;color:var(--gd);border-radius:999px;padding:7px 12px;font-size:12px;font-weight:700;margin-bottom:16px}
+h1{font-size:42px;line-height:.97;letter-spacing:-0.05em;margin-bottom:12px}
+.hero-sub{font-size:15px;line-height:1.7;color:var(--muted);max-width:68ch}
+.kpi-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+.kpi{background:var(--panel-soft);border:1px solid var(--border);border-radius:18px;padding:14px 16px}
+.kpi .lbl{font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
+.kpi .val{font-size:26px;font-weight:500;letter-spacing:-0.04em;line-height:1}
+.kpi .sub{font-size:11px;color:var(--muted);margin-top:4px}
+.k1 .val{color:var(--gd)}.k2 .val{color:var(--red)}.k3 .val{color:var(--orange)}.k4 .val{color:var(--blue)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px}
+.section-card{padding:22px 24px}
+.sh{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:16px}
+.sh h2{font-size:22px;letter-spacing:-0.04em}
+.sh span{font-size:12px;color:var(--muted)}
+.phase-block{border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:12px}
+.ph-head{padding:11px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.ph-tag{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:3px 9px;border-radius:999px}
+.ph-title{font-size:14px;font-weight:600}
+.ph-body{padding:12px 14px;display:grid;gap:8px}
+.ph-item{padding:9px 11px;border-radius:10px;border:1px solid var(--border);background:var(--panel)}
+.ph-item .it{font-size:13px;font-weight:600;margin-bottom:3px}
+.ph-item .id{font-size:12px;color:var(--muted);line-height:1.55}
+.ph-item .ib{margin-top:6px;display:flex;align-items:center;justify-content:space-between}
+.alert-box{border-radius:10px;padding:10px 12px;font-size:12px;line-height:1.6}
+.alert-critical{background:#fde8e8;border-left:3px solid var(--red);color:#a32d2d}
+.alert-warn{background:#fef3e8;border-left:3px solid var(--orange);color:#b85800}
+.alert-ok{background:#e1f5ee;border-left:3px solid var(--green);color:var(--gd)}
+.badge{display:inline-block;padding:2px 9px;border-radius:999px;font-size:11px;font-weight:600}
+.bc{background:#fde8e8;color:#a32d2d}.bh{background:#faeeda;color:#854f0b}
+.bm{background:#e6f1fb;color:#185fa5}.bg{background:#e1f5ee;color:var(--gd)}
+.bpu{background:#eeedfe;color:#3c3489}.bgr{background:#f1efe8;color:#444441}
+.revised-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+.rev-col{border:1px solid var(--border);border-radius:16px;overflow:hidden}
+.rev-head{padding:11px 14px;border-bottom:1px solid var(--border)}
+.rev-body{padding:12px 14px;display:grid;gap:7px}
+.rev-item{padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:var(--panel)}
+.rev-item .rt{font-size:12px;font-weight:600;margin-bottom:2px}
+.rev-item .rd{font-size:11px;color:var(--muted);line-height:1.5}
+.bar-row{display:grid;grid-template-columns:130px 1fr 42px;gap:8px;align-items:center;margin-bottom:7px}
+.bar-bg{height:6px;background:var(--panel-soft);border-radius:3px;overflow:hidden}
+.bar-fill{height:6px;border-radius:3px}
+.verdict{background:#e1f5ee;border:1px solid #9fe1cb;border-radius:20px;padding:22px 26px;margin-bottom:18px}
+.verdict h2{font-size:20px;letter-spacing:-0.03em;color:#085041;margin-bottom:8px}
+.verdict p{font-size:14px;color:#0f6e56;line-height:1.7}
+@media(max-width:900px){.grid2{grid-template-columns:1fr}.kpi-strip,.revised-grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<header class="topbar">
+  <div class="brand"><span class="vita">vita</span><span class="codex">codex</span></div>
+  <nav class="nav">
+    <a class="nav-link" href="/">Roadmap</a>
+    <a class="nav-link" href="/market-analysis">Mercado</a>
+    <a class="nav-link" href="/backend-analysis">Backend</a>
+    <a class="nav-link active" href="/roadmap-vs-backend">Gaps & Prioridades</a>
+  </nav>
+</header>
+
+<div class="card page-hero">
+  <div class="eyebrow">Roadmap × gaps reais · cruzamento</div>
+  <h1>A direção está certa. A ordem está invertida em dois pontos.</h1>
+  <p class="hero-sub">Léxicos, clusters, confiança visível e linguagem humana — tudo certo. O problema: a Fase 1 original (expandir SNPs) está na posição errada, e o fix mais urgente não está em nenhuma fase.</p>
+</div>
+
+<div class="kpi-strip">
+  <div class="kpi k1"><div class="lbl">Fases no roadmap original</div><div class="val">4</div><div class="sub">SNPs → Léxicos → Clusters → Confiança</div></div>
+  <div class="kpi k2"><div class="lbl">Score composto atual</div><div class="val">40%</div><div class="sub">Meta mínima: 75% para produção</div></div>
+  <div class="kpi k3"><div class="lbl">Alinhamento roadmap/backend</div><div class="val">Parcial</div><div class="sub">Ordem das fases precisa de revisão</div></div>
+  <div class="kpi k4"><div class="lbl">Gap crítico não endereçado</div><div class="val">1</div><div class="sub">Lookup index (RSID/gene/cat = 0%)</div></div>
+</div>
+
+<div class="grid2">
+  <div class="card section-card">
+    <div class="sh"><h2>Roadmap original — avaliação por fase</h2><span></span></div>
+
+    <div class="phase-block">
+      <div class="ph-head" style="background:#faeeda">
+        <span class="ph-tag" style="background:#fef3e8;color:#b85800">Fase 1</span>
+        <span class="ph-title">Expandir base de SNPs</span>
+      </div>
+      <div class="ph-body">
+        <div class="alert-box alert-warn">Relevante mas na posição errada. O problema atual não é quantidade de SNPs — é como os 33 existentes são recuperados. Adicionar marcadores sobre um sistema de busca com 0% de precisão por rsID só aumenta ruído. Esta fase deve ser a última.</div>
+      </div>
+    </div>
+
+    <div class="phase-block">
+      <div class="ph-head" style="background:#e6f1fb">
+        <span class="ph-tag" style="background:#dceeff;color:#185fa5">Fase 2</span>
+        <span class="ph-title">Criar a camada de léxicos</span>
+      </div>
+      <div class="ph-body">
+        <div class="alert-box alert-warn">A v4 já tentou léxico injetado no texto de embedding — e os testes mostraram que não funcionou: sinônimos concatenados no embed_text degradam a semântica sem melhorar a precisão. A Fase 2 precisa de uma abordagem diferente: léxico como campo separado, só para o BM25.</div>
+      </div>
+    </div>
+
+    <div class="phase-block">
+      <div class="ph-head" style="background:#eeedfe">
+        <span class="ph-tag" style="background:#e4e2fc;color:#3c3489">Fase 3</span>
+        <span class="ph-title">Clusters descritivos</span>
+      </div>
+      <div class="ph-body">
+        <div class="alert-box alert-ok">Prioridade correta. É a peça que conecta o NutriNest backend à tela DNA Explorer do Vitacodex. Requer cluster_definitions.json + cluster scorer. Com isso pronto, a UI para de usar mocks.</div>
+      </div>
+    </div>
+
+    <div class="phase-block">
+      <div class="ph-head" style="background:#f1efe8">
+        <span class="ph-tag" style="background:#e8e6de;color:#444441">Fase 4</span>
+        <span class="ph-title">Confiança e narrativa</span>
+      </div>
+      <div class="ph-body">
+        <div class="alert-box alert-ok">Alinhado com o que o backend já tem (confidence_weight). A penalidade atual (s -= 0.25) precisa virar dois tiers explícitos: primary / exploratory. Conecta à lógica de incerteza do produto.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card section-card">
+    <div class="sh"><h2>O que os testes revelam além do roadmap</h2><span></span></div>
+
+    <div style="padding:14px 16px;background:#fde8e8;border:1px solid #f7c1c1;border-radius:16px;margin-bottom:12px">
+      <div style="font-size:13px;font-weight:700;color:#a32d2d;margin-bottom:6px">Gap não endereçado em nenhuma fase</div>
+      <div style="font-size:13px;color:#791f1f;line-height:1.65">O lookup index dedicado — rsID → docs, gene → docs, category → docs — não está previsto no roadmap. É o que impede RSID (0%), cromossomo (0%) e categoria (0%) de funcionar. Sem ele, o intent router detecta o tipo de consulta mas não tem para onde mandar.</div>
+    </div>
+
+    <div class="sh" style="margin-top:4px"><h2>Performance clínica por área (v5)</h2><span></span></div>
+    <div class="bar-row"><span style="font-size:12px">Envelhecimento</span><div class="bar-bg"><div class="bar-fill" style="width:65%;background:#1D9E75"></div></div><span style="font-size:12px;font-weight:600;color:var(--gd)">65%</span></div>
+    <div class="bar-row"><span style="font-size:12px">Nutrição</span><div class="bar-bg"><div class="bar-fill" style="width:61%;background:#1D9E75"></div></div><span style="font-size:12px;font-weight:600;color:var(--gd)">61%</span></div>
+    <div class="bar-row"><span style="font-size:12px">Suplementação</span><div class="bar-bg"><div class="bar-fill" style="width:54%;background:var(--orange)"></div></div><span style="font-size:12px;font-weight:600;color:var(--orange)">54%</span></div>
+    <div class="bar-row"><span style="font-size:12px">Cardiovascular</span><div class="bar-bg"><div class="bar-fill" style="width:50%;background:var(--orange)"></div></div><span style="font-size:12px;font-weight:600;color:var(--orange)">50%</span></div>
+    <div class="bar-row"><span style="font-size:12px">Comportamental</span><div class="bar-bg"><div class="bar-fill" style="width:25%;background:var(--red)"></div></div><span style="font-size:12px;font-weight:600;color:var(--red)">25%</span></div>
+    <div class="bar-row"><span style="font-size:12px">Performance</span><div class="bar-bg"><div class="bar-fill" style="width:20%;background:var(--red)"></div></div><span style="font-size:12px;font-weight:600;color:var(--red)">20%</span></div>
+    <div style="font-size:11px;color:var(--muted);margin-top:4px;margin-bottom:14px">Cardiovascular e Performance falham por ausência de category alias map — não por falta de SNPs.</div>
+
+    <div style="padding:12px 14px;border-radius:12px;border:1px solid var(--border)">
+      <div style="font-size:13px;font-weight:600;margin-bottom:8px">Abordagem atual vs. correta para léxicos</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <div style="padding:8px 10px;border-radius:8px;background:#fde8e8;border:1px solid #f7c1c1">
+          <div style="font-size:11px;font-weight:600;color:#a32d2d;margin-bottom:3px">Atual (não funciona)</div>
+          <div style="font-size:12px;color:#791f1f">Léxico concatenado no embed_text. Semântica degradada, precisão igual.</div>
+        </div>
+        <div style="padding:8px 10px;border-radius:8px;background:#e1f5ee;border:1px solid #9fe1cb">
+          <div style="font-size:11px;font-weight:600;color:#085041;margin-bottom:3px">Correta</div>
+          <div style="font-size:12px;color:#0f6e56">embed_text limpo para semântica. bm25_text rico com sinônimos. Campos separados.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sh" style="margin-bottom:12px"><h2>Ordem de build revisada</h2><span>cruzando roadmap × gaps reais</span></div>
+<div class="revised-grid">
+  <div class="rev-col">
+    <div class="rev-head" style="background:#faeeda">
+      <div style="font-size:10px;font-weight:700;color:#854f0b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px">Antes de tudo · Fase 0</div>
+      <div style="font-size:14px;font-weight:600;color:#412402">Fix estrutural</div>
+    </div>
+    <div class="rev-body">
+      <div class="rev-item"><div class="rt">snp_lookup.py</div><div class="rd">Dict rsid/gene/cat/chr. Early-exit no search. 1 tarde.</div><div style="margin-top:4px"><span class="badge bc">Não estava no roadmap</span></div></div>
+      <div class="rev-item"><div class="rt">Category alias map</div><div class="rd">"cardiovascular" → lipidios. Resolve 0% sem novo SNP.</div><div style="margin-top:4px"><span class="badge bc">Não estava no roadmap</span></div></div>
+      <div class="rev-item"><div class="rt">Split embed / BM25</div><div class="rd">Léxico sai do embed_text, vai ao bm25_text.</div><div style="margin-top:4px"><span class="badge bh">Implícito na Fase 2</span></div></div>
+    </div>
+  </div>
+
+  <div class="rev-col">
+    <div class="rev-head" style="background:#eeedfe">
+      <div style="font-size:10px;font-weight:700;color:#3c3489;text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px">Fase 1 revisada</div>
+      <div style="font-size:14px;font-weight:600;color:#26215c">Léxicos corretos</div>
+    </div>
+    <div class="rev-body">
+      <div class="rev-item"><div class="rt">Léxico como campo separado</div><div class="rd">embed_text limpo. bm25_text rico. Dois campos no JSONL.</div><div style="margin-top:4px"><span class="badge bpu">Fase 2 original</span></div></div>
+      <div class="rev-item"><div class="rt">Aliases de genes e rsIDs</div><div class="rd">FTO → "gene da obesidade". Gene lookup 20% → ~80%.</div><div style="margin-top:4px"><span class="badge bpu">Fase 2 original</span></div></div>
+      <div class="rev-item"><div class="rt">Two-tier confidence</div><div class="rd">Primary (≥0.6) + Exploratory. Conecta ao UI de incerteza.</div><div style="margin-top:4px"><span class="badge bh">Antecipa Fase 4</span></div></div>
+    </div>
+  </div>
+
+  <div class="rev-col">
+    <div class="rev-head" style="background:#e1f5ee">
+      <div style="font-size:10px;font-weight:700;color:#085041;text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px">Fase 2</div>
+      <div style="font-size:14px;font-weight:600;color:#04342c">Cluster layer</div>
+    </div>
+    <div class="rev-body">
+      <div class="rev-item"><div class="rt">cluster_definitions.json</div><div class="rd">6 clusters. SNP membership + weights.</div><div style="margin-top:4px"><span class="badge bg">Fase 3 original</span></div></div>
+      <div class="rev-item"><div class="rt">Cluster scorer</div><div class="rd">Genótipo → score por cluster via conf_weight.</div><div style="margin-top:4px"><span class="badge bg">Fase 3 original</span></div></div>
+      <div class="rev-item"><div class="rt">DNA Explorer bridge</div><div class="rd">Backend retorna cluster states. UI mostra % real, não mock.</div><div style="margin-top:4px"><span class="badge bg">Liga UI ao backend</span></div></div>
+    </div>
+  </div>
+
+  <div class="rev-col">
+    <div class="rev-head" style="background:#f1efe8">
+      <div style="font-size:10px;font-weight:700;color:#444441;text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px">Fase 3</div>
+      <div style="font-size:14px;font-weight:600;color:#2c2c2a">Modelo descritivo + expansão</div>
+    </div>
+    <div class="rev-body">
+      <div class="rev-item"><div class="rt">Priority ranker semanal</div><div class="rd">Cluster scores + labs + contexto → top 3 sinais.</div><div style="margin-top:4px"><span class="badge bgr">Fase 4 original</span></div></div>
+      <div class="rev-item"><div class="rt">LLM renderer</div><div class="rd">Cluster state → linguagem humana. "Seu perfil mostra…"</div><div style="margin-top:4px"><span class="badge bgr">Fase 4 original</span></div></div>
+      <div class="rev-item"><div class="rt">Expansão de SNPs</div><div class="rd">Agora sim: infraestrutura pronta, expansão com critério.</div><div style="margin-top:4px"><span class="badge bh">Fase 1 → move para cá</span></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="verdict">
+  <h2>Diagnóstico consolidado</h2>
+  <p>A direção estratégica do roadmap está correta: léxicos, clusters, confiança visível, linguagem humana. Mas a ordem de execução precisa de dois ajustes. Primeiro: inserir uma Fase 0 de correções estruturais antes de qualquer expansão — o lookup index dedicado não está em nenhuma fase e é o que impede rsID, gene e categoria de funcionar. Segundo: mover a expansão de SNPs para o final, não o começo. Adicionar marcadores sobre um sistema de recuperação com falhas críticas só amplifica o ruído. Com a Fase 0 feita, o score composto sai de 40% para ~70%+ sem um único SNP novo.</p>
+</div>
+
+</div>
+</body>
+</html>

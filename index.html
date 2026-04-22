@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Vitacodex — Roadmap do Modelo</title>
+<style>
+:root {
+  --bg: #f4f5f5;
+  --panel: #ffffff;
+  --panel-soft: #eef2f0;
+  --text: #111111;
+  --muted: #5f6865;
+  --border: #dbe3df;
+  --green: #18c56e;
+  --green-dark: #0f8e57;
+  --green-soft: #85b8a8;
+  --orange: #f28a22;
+  --purple: #b846ff;
+  --blue: #3f6df6;
+  --teal: #12b9b2;
+  --red: #e45858;
+  --shadow: 0 10px 30px rgba(16, 24, 20, 0.06);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, sans-serif;
+  background: linear-gradient(180deg, #f6f7f7 0%, #f1f5f3 100%);
+  color: var(--text);
+}
+a { color: inherit; text-decoration: none; }
+.page { max-width: 1360px; margin: 0 auto; padding: 28px 28px 60px; }
+.topbar { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-bottom: 24px; }
+.brand { font-size: 32px; letter-spacing: -0.05em; line-height: 1; font-weight: 400; }
+.brand .vita { color: var(--green); }
+.brand .codex { color: #0b0b0b; }
+.nav { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.nav-link {
+  padding: 10px 14px; border-radius: 999px; border: 1px solid var(--border);
+  background: rgba(255,255,255,.8); font-size: 12px; font-weight: 700; color: var(--muted);
+  transition: .15s ease;
+}
+.nav-link:hover { background: var(--panel-soft); color: var(--text); }
+.nav-link.active { background: var(--green); color: white; border-color: var(--green); }
+
+.card { background: var(--panel); border: 1px solid var(--border); border-radius: 28px; box-shadow: var(--shadow); }
+.hero { display: grid; grid-template-columns: 1.08fr 0.92fr; gap: 18px; margin-bottom: 18px; }
+.hero-copy { padding: 30px; background: linear-gradient(180deg, #ffffff 0%, #f2f7f4 100%); border-radius: 28px; }
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 8px; background: #e8f7ee; color: var(--green-dark);
+  border-radius: 999px; padding: 7px 12px; font-size: 12px; font-weight: 700; margin-bottom: 16px;
+}
+h1 { margin: 0 0 12px; font-size: 48px; line-height: 0.95; letter-spacing: -0.06em; }
+.hero-copy p { margin: 0; font-size: 15px; line-height: 1.75; color: var(--muted); max-width: 62ch; }
+.hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 22px; }
+
+.btn {
+  border: none; border-radius: 999px; padding: 12px 18px; font-size: 13px; font-weight: 700;
+  cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px; transition: .15s ease;
+}
+.btn-primary { background: var(--green); color: white; }
+.btn-primary:hover { background: var(--green-dark); }
+.btn-secondary { background: white; border: 1px solid var(--border); color: #111; }
+.btn-secondary:hover { background: var(--panel-soft); }
+
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 22px; }
+.stat {
+  background: rgba(255,255,255,.82); border: 1px solid var(--border); border-radius: 18px;
+  padding: 14px 12px; text-align: center;
+}
+.stat strong { display: block; font-size: 28px; letter-spacing: -0.05em; line-height: 1; margin-bottom: 6px; }
+.stat span { font-size: 12px; color: var(--muted); }
+.stat.s1 strong { color: var(--green-dark); }
+.stat.s2 strong { color: var(--orange); }
+.stat.s3 strong { color: var(--blue); }
+.stat.s4 strong { color: var(--purple); }
+
+.hero-visual { padding: 24px; position: relative; overflow: hidden; background: linear-gradient(180deg, #ffffff 0%, #f6fbf8 100%); border-radius: 28px; }
+.hero-visual h3 { margin: 0 0 8px; font-size: 19px; letter-spacing: -0.03em; }
+.hero-visual p { margin: 0 0 18px; color: var(--muted); font-size: 13px; line-height: 1.6; }
+.flow {
+  background: white; border: 1px solid var(--border); border-radius: 24px; min-height: 430px;
+  padding: 22px; position: relative; overflow: hidden;
+}
+.flow svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.node {
+  position: absolute; border-radius: 22px; padding: 14px 16px; color: white; width: 170px;
+  box-shadow: 0 10px 24px rgba(0,0,0,.08);
+}
+.node strong { display: block; font-size: 14px; line-height: 1.15; margin-bottom: 4px; }
+.node span { font-size: 11px; line-height: 1.4; opacity: .95; }
+.n1 { top: 34px; left: 26px; background: linear-gradient(135deg,#17c96e,#0f8e57); }
+.n2 { top: 34px; right: 26px; background: linear-gradient(135deg,#3f6df6,#214ac4); }
+.n3 { top: 175px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg,#b846ff,#7c31b2); width: 190px; }
+.n4 { bottom: 36px; left: 40px; background: linear-gradient(135deg,#f28a22,#cf6410); }
+.n5 { bottom: 36px; right: 40px; background: linear-gradient(135deg,#12b9b2,#0b8e89); }
+
+.section { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px; }
+.section-card { padding: 22px; }
+.section-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
+.section-head h2 { margin: 0; font-size: 24px; letter-spacing: -0.04em; }
+.section-head span { font-size: 12px; color: var(--muted); }
+
+.stack { display: grid; gap: 12px; }
+.signal-card {
+  border: 1px solid var(--border); border-left: 4px solid var(--green); border-radius: 18px;
+  padding: 14px 16px; background: #fcfffd;
+}
+.signal-card.orange { border-left-color: var(--orange); }
+.signal-card.purple { border-left-color: var(--purple); }
+.signal-card.blue { border-left-color: var(--blue); }
+.signal-card.teal { border-left-color: var(--teal); }
+.signal-card.red { border-left-color: var(--red); }
+.signal-card h4 { margin: 0 0 6px; font-size: 16px; }
+.signal-card p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.6; }
+
+.badge {
+  display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px; border-radius: 999px;
+  background: #f3f8f5; border: 1px solid var(--border); font-size: 12px; font-weight: 700; color: var(--green-dark);
+}
+.meta-box {
+  margin-top: 10px; font-family: ui-monospace, monospace; font-size: 11px; color: var(--muted);
+  background: var(--panel-soft); border-radius: 10px; padding: 8px 10px; line-height: 1.5; white-space: pre-line;
+}
+.chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+.chip {
+  padding: 6px 10px; border-radius: 999px; font-size: 11px; font-weight: 700;
+  background: #eef7f2; color: var(--green-dark); border: 1px solid #d9eee3;
+}
+
+.roadmap-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.phase {
+  background: linear-gradient(180deg,#ffffff 0%, #f7fbf8 100%);
+  border: 1px solid var(--border); border-radius: 22px; padding: 18px;
+}
+.phase .phase-tag {
+  display: inline-flex; font-size: 10px; text-transform: uppercase; letter-spacing: .08em; font-weight: 700;
+  color: var(--green-dark); background: #e8f7ee; padding: 5px 8px; border-radius: 999px; margin-bottom: 10px;
+}
+.phase.phase-0 { border: 2px solid var(--orange); }
+.phase.phase-0 .phase-tag { background: #fef3e8; color: #b85800; }
+.phase h3 { margin: 0 0 6px; font-size: 18px; letter-spacing: -0.03em; }
+.phase p { margin: 0 0 12px; color: var(--muted); font-size: 13px; line-height: 1.6; }
+.phase ul { margin: 0; padding-left: 18px; color: var(--muted); font-size: 13px; line-height: 1.7; }
+.phase .note { margin-top: 12px; padding: 8px 10px; background: #fef3e8; border-radius: 10px; font-size: 11px; color: #b85800; line-height: 1.5; }
+
+.table-like { display: grid; gap: 10px; }
+.table-row {
+  display: grid; grid-template-columns: 1.1fr 1.2fr 1fr; gap: 12px; align-items: start;
+  background: white; border: 1px solid var(--border); border-radius: 16px; padding: 14px;
+}
+.table-row .col-title { font-size: 13px; font-weight: 700; }
+.table-row .col-copy { font-size: 12px; color: var(--muted); line-height: 1.55; }
+.table-row .col-pill {
+  justify-self: start; background: #f3f8f5; border: 1px solid var(--border);
+  border-radius: 999px; padding: 6px 10px; font-size: 11px; font-weight: 700; color: var(--green-dark);
+}
+
+.analyses-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 18px; }
+.analysis-card {
+  border: 1px solid var(--border); border-radius: 22px; padding: 20px 22px;
+  background: white; display: flex; flex-direction: column; gap: 10px;
+  transition: box-shadow .18s ease;
+}
+.analysis-card:hover { box-shadow: var(--shadow); }
+.analysis-card .ac-tag {
+  font-size: 10px; text-transform: uppercase; letter-spacing: .08em; font-weight: 700;
+  color: var(--muted);
+}
+.analysis-card h3 { margin: 0; font-size: 18px; letter-spacing: -0.03em; line-height: 1.2; }
+.analysis-card p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.6; flex: 1; }
+.analysis-card .ac-link {
+  display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700;
+  color: var(--green-dark); margin-top: 4px;
+}
+.analysis-card .ac-link::after { content: "→"; }
+
+.footer-cta {
+  padding: 22px 24px; display: flex; align-items: center; justify-content: space-between; gap: 18px;
+  background: linear-gradient(180deg, #ffffff 0%, #f2f7f4 100%);
+}
+.footer-cta h3 { margin: 0 0 6px; font-size: 24px; letter-spacing: -0.04em; }
+.footer-cta p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.6; max-width: 62ch; }
+
+@media (max-width: 1180px) {
+  .hero, .section { grid-template-columns: 1fr; }
+  .roadmap-grid { grid-template-columns: repeat(2, 1fr); }
+  .analyses-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 760px) {
+  .page { padding: 18px 18px 40px; }
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .roadmap-grid { grid-template-columns: 1fr; }
+  .table-row { grid-template-columns: 1fr; }
+  h1 { font-size: 36px; }
+  .footer-cta { flex-direction: column; align-items: flex-start; }
+  .flow { min-height: 520px; }
+  .node { width: 150px; }
+  .n1 { left: 16px; }
+  .n2 { right: 16px; }
+  .n4 { left: 18px; }
+  .n5 { right: 18px; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<header class="topbar">
+  <div class="brand"><span class="vita">vita</span><span class="codex">codex</span></div>
+  <nav class="nav">
+    <a class="nav-link active" href="/">Roadmap</a>
+    <a class="nav-link" href="/market-analysis">Mercado</a>
+    <a class="nav-link" href="/backend-analysis">Backend</a>
+    <a class="nav-link" href="/roadmap-vs-backend">Gaps & Prioridades</a>
+  </nav>
+</header>
+
+<section class="hero" id="visao">
+  <div class="card hero-copy">
+    <div class="eyebrow">Roadmap do modelo · versão leiga</div>
+    <h1>Como o Vitacodex sai de um bom protótipo para um motor mais confiável.</h1>
+    <p>
+      Hoje o Vitacodex já mostra grupos genéticos de forma bonita e compreensível. O próximo passo não é "jogar mais genética" na tela.
+      É organizar melhor o raciocínio do motor: corrigir as falhas de recuperação, criar camadas de léxicos dedicadas,
+      montar clusters descritivos e só então expandir a base de SNPs — nessa ordem, com critério.
+    </p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#roadmap">Ver roadmap</a>
+      <a class="btn btn-secondary" href="#analises">Ver análises</a>
+    </div>
+    <div class="stats">
+      <div class="stat s1"><strong>Fase 0</strong><span>fix estrutural primeiro</span></div>
+      <div class="stat s2"><strong>Léxicos</strong><span>campos separados, não concatenados</span></div>
+      <div class="stat s3"><strong>Clusters</strong><span>bridge para o DNA Explorer</span></div>
+      <div class="stat s4"><strong>+SNPs</strong><span>expansão após infraestrutura sólida</span></div>
+    </div>
+  </div>
+
+  <div class="card hero-visual">
+    <h3>O novo motor em linguagem simples</h3>
+    <p>Em vez de só buscar SNPs por similaridade, o Vitacodex passa a combinar lookup estruturado, léxico dedicado, clusters por tema e narrativa final mais coerente.</p>
+    <div class="flow">
+      <svg viewBox="0 0 1000 700" fill="none" preserveAspectRatio="none">
+        <path d="M200 130 C340 140, 420 170, 500 255" stroke="#d9e9e1" stroke-width="3"/>
+        <path d="M800 130 C670 150, 600 180, 500 255" stroke="#dbe7fb" stroke-width="3"/>
+        <path d="M500 330 C420 390, 320 460, 200 550" stroke="#f2e3fb" stroke-width="3"/>
+        <path d="M500 330 C580 390, 680 460, 800 550" stroke="#d9f3f2" stroke-width="3"/>
+      </svg>
+      <div class="node n1">
+        <strong>Lookup estruturado</strong>
+        <span>rsID, gene e categoria respondem direto, sem passar por busca semântica.</span>
+      </div>
+      <div class="node n2">
+        <strong>Léxico dedicado</strong>
+        <span>Sinônimos enriquecem o BM25, sem degradar o embedding do texto clínico.</span>
+      </div>
+      <div class="node n3">
+        <strong>Camada de clusters</strong>
+        <span>SNPs agrupados em blocos biológicos. Score composto por tema, não por marcador isolado.</span>
+      </div>
+      <div class="node n4">
+        <strong>Confiança em dois tiers</strong>
+        <span>Primary (sólido) e Exploratory (hipótese). Sem misturar os dois na saída.</span>
+      </div>
+      <div class="node n5">
+        <strong>Narrativa humana</strong>
+        <span>Saída final por cluster, não por rsID. Menos relatório, mais orientação útil.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="motor">
+  <div class="card section-card">
+    <div class="section-head">
+      <h2>O que muda no motor</h2>
+      <span>explicado sem jargão pesado</span>
+    </div>
+    <div class="stack">
+      <div class="signal-card orange">
+        <h4>0. Fix estrutural antes de tudo</h4>
+        <p>Antes de qualquer expansão, o motor precisa de um índice de lookup dedicado. Consultas por rsID, gene e categoria hoje retornam 0% de precisão porque o intent router detecta o tipo mas não tem caminho de resposta. É uma tarde de código com impacto imediato.</p>
+      </div>
+      <div class="signal-card blue">
+        <h4>1. Léxicos como campo separado, não texto embutido</h4>
+        <p>O léxico funciona como dicionário inteligente — mas precisa enriquecer o BM25, não contaminar o embedding. Texto limpo para semântica, texto rico para busca por palavra. Dois campos, não um.</p>
+        <div class="meta-box">embed_text → narrativa clínica limpa
+bm25_text  → embed_text + sinônimos + aliases + tags</div>
+      </div>
+      <div class="signal-card purple">
+        <h4>2. Clusters descritivos com score real</h4>
+        <p>Em vez de responder SNP por SNP, o modelo agrupa sinais em blocos biológicos legíveis. Cada cluster tem um score calculado a partir dos genótipos do usuário, pesado por confidence_weight. É isso que alimenta o DNA Explorer.</p>
+        <div class="chips">
+          <span class="chip">metabolismo energético</span>
+          <span class="chip">cardiometabólico</span>
+          <span class="chip">neuro e foco</span>
+          <span class="chip">micronutrientes</span>
+          <span class="chip">performance</span>
+          <span class="chip">envelhecimento</span>
+        </div>
+      </div>
+      <div class="signal-card">
+        <h4>3. Expansão de SNPs com infraestrutura pronta</h4>
+        <p>Só depois que lookup, léxico e clusters funcionam faz sentido adicionar mais marcadores. Antes disso, cada SNP novo entra sem garantia de ser encontrado quando precisar. Quantidade sem estrutura é ruído.</p>
+      </div>
+      <div class="signal-card teal">
+        <h4>4. Confiança e narrativa final</h4>
+        <p>Nem todo sinal genético deve virar recomendação forte. O modelo separa primary (confidence ≥ 0.6) de exploratory (hipótese). Isso protege a credibilidade do Vitacodex e melhora o alinhamento com o Clinical Sync.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card section-card">
+    <div class="section-head">
+      <h2>Como isso aparece para o usuário</h2>
+      <span>saída mais clara</span>
+    </div>
+    <div class="stack">
+      <div class="signal-card teal">
+        <h4>Antes</h4>
+        <p>"Você tem um SNP com associação moderada a X."</p>
+      </div>
+      <div class="signal-card">
+        <h4>Depois</h4>
+        <p>"Seu perfil mostra um padrão no cluster de metabolismo energético. Isso sugere atenção maior à resposta a carboidratos e à estabilidade glicêmica."</p>
+      </div>
+      <div class="signal-card red">
+        <h4>O ganho real</h4>
+        <p>Menos sensação de relatório técnico fragmentado. Mais sensação de sistema que realmente entende o conjunto e traduz o resultado para uma pessoa normal.</p>
+      </div>
+      <div class="signal-card blue">
+        <h4>Impacto no produto</h4>
+        <p>O DNA Explorer passa a mostrar scores reais por cluster. O Clinical Sync cruza exames com clusters ativos, não com rsIDs isolados. O Target recebe sinais por tema, não por marcador.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="card section-card" id="roadmap" style="margin-bottom:18px;">
+  <div class="section-head">
+    <h2>Roadmap de melhorias do modelo</h2>
+    <span>ordem revisada após análise técnica</span>
+  </div>
+  <div class="roadmap-grid">
+    <div class="phase phase-0">
+      <div class="phase-tag">Fase 0 · urgente</div>
+      <h3>Fix estrutural</h3>
+      <p>Corrigir o que está quebrado antes de construir sobre ele. Impacto imediato, baixo custo.</p>
+      <ul>
+        <li>lookup index rsID/gene/categoria</li>
+        <li>category alias map (consumer lang)</li>
+        <li>split texto embed vs BM25</li>
+        <li>two-tier confidence return</li>
+      </ul>
+      <div class="note">Não estava no roadmap original. Análise de avaliação revelou RSID = 0% precisão.</div>
+    </div>
+    <div class="phase">
+      <div class="phase-tag">Fase 1 · revisada</div>
+      <h3>Léxicos corretos</h3>
+      <p>Dicionário inteligente como campo separado — enriquece BM25 sem degradar semântica.</p>
+      <ul>
+        <li>embed_text limpo por SNP</li>
+        <li>bm25_text com sinônimos e aliases</li>
+        <li>aliases de genes e rsIDs</li>
+        <li>ligações sintoma–mecanismo</li>
+      </ul>
+    </div>
+    <div class="phase">
+      <div class="phase-tag">Fase 2</div>
+      <h3>Clusters descritivos</h3>
+      <p>Grupos legíveis com score real. Bridge entre o backend e o DNA Explorer do Vitacodex.</p>
+      <ul>
+        <li>cluster_definitions.json</li>
+        <li>SNP → cluster membership</li>
+        <li>cluster scorer por genótipo</li>
+        <li>output numérico para UI</li>
+      </ul>
+    </div>
+    <div class="phase">
+      <div class="phase-tag">Fase 3</div>
+      <h3>Modelo descritivo + expansão</h3>
+      <p>Narrativa por cluster, prioridade semanal e — agora sim — expansão organizada de SNPs.</p>
+      <ul>
+        <li>plain-language renderer (LLM)</li>
+        <li>priority ranker semanal</li>
+        <li>expansão guiada por tema</li>
+        <li>alinhamento com Clinical Sync</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="analises" style="margin-bottom:18px;">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+    <h2 style="font-size:24px;letter-spacing:-0.04em;margin:0;">Análises de suporte</h2>
+    <span style="font-size:12px;color:var(--muted);">documentação técnica e de mercado</span>
+  </div>
+  <div class="analyses-grid">
+    <a class="analysis-card" href="/market-analysis">
+      <div class="ac-tag">Mercado · posicionamento</div>
+      <h3>Análise de mercado genômico</h3>
+      <p>Comparativo completo com 23andMe, CircleDNA e Nebula Genomics. Feature matrix, forças do conceito Vitacodex e sinais de mercado favoráveis.</p>
+      <span class="ac-link">Ver análise de mercado</span>
+    </a>
+    <a class="analysis-card" href="/backend-analysis">
+      <div class="ac-tag">Backend · NutriNest</div>
+      <h3>Análise técnica do backend</h3>
+      <p>Diagnóstico completo do stack FAISS + BM25. Resultados de avaliação por área clínica, root cause dos gaps e fixes priorizados com código.</p>
+      <span class="ac-link">Ver análise técnica</span>
+    </a>
+    <a class="analysis-card" href="/roadmap-vs-backend">
+      <div class="ac-tag">Roadmap · gaps e prioridades</div>
+      <h3>Roadmap vs. gaps reais</h3>
+      <p>Cruzamento entre as 4 fases previstas e o que os testes revelam. Onde a ordem está certa, onde está invertida e o que estava faltando.</p>
+      <span class="ac-link">Ver cruzamento</span>
+    </a>
+  </div>
+</section>
+
+<section class="section" id="bases">
+  <div class="card section-card">
+    <div class="section-head">
+      <h2>Bases públicas que sustentam a evolução</h2>
+      <span>fontes de referência</span>
+    </div>
+    <div class="table-like">
+      <div class="table-row">
+        <div class="col-title">NCBI / NIH (EUA)</div>
+        <div class="col-copy">Âncora técnica para localizar variantes, genes e contexto de variação genética. Base para manter o índice organizado e rastreável.</div>
+        <div class="col-pill">base estrutural e validação</div>
+      </div>
+      <div class="table-row">
+        <div class="col-title">GWAS Catalog (NHGRI-EBI)</div>
+        <div class="col-copy">Reúne associações SNP-traço replicadas. Fonte para enriquecer o lexicon, calibrar confidence_weight e decidir quais sinais entram nos clusters.</div>
+        <div class="col-pill">associação SNP-traço</div>
+      </div>
+      <div class="table-row">
+        <div class="col-title">Curadoria interna do Vitacodex</div>
+        <div class="col-copy">A camada que transforma dados públicos em produto. Prioridade clínica, linguagem humana, agrupamento por tema e decisão do que merece destaque.</div>
+        <div class="col-pill">diferencial do produto</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card section-card">
+    <div class="section-head">
+      <h2>O que não vamos fazer</h2>
+      <span>para manter foco e credibilidade</span>
+    </div>
+    <div class="stack">
+      <div class="signal-card red">
+        <h4>Não expandir SNPs antes de fixar a recuperação</h4>
+        <p>Adicionar marcadores sobre um sistema de busca com 0% de precisão por rsID só aumenta ruído. A expansão entra na Fase 3, depois da infraestrutura sólida.</p>
+      </div>
+      <div class="signal-card orange">
+        <h4>Não tratar toda associação como verdade forte</h4>
+        <p>Alguns sinais são sólidos (confidence ≥ 0.6), outros são hipóteses exploratórias. O modelo deixa isso visível em dois tiers distintos.</p>
+      </div>
+      <div class="signal-card blue">
+        <h4>Não depender só de busca semântica</h4>
+        <p>Busca por similaridade é útil para queries livres, mas falha em consultas exatas. Por isso entram lookup index, léxicos dedicados e category alias map.</p>
+      </div>
+      <div class="signal-card">
+        <h4>Não falar como paper</h4>
+        <p>O pitch do produto é explicar bem. A ciência fica por trás. A interface continua simples, elegante e acessível.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="footer-cta card">
+  <div>
+    <h3>Resumo do roadmap revisado</h3>
+    <p>
+      O próximo salto do Vitacodex não vem de mais dados — vem de recuperação correta, léxicos bem posicionados,
+      clusters com score real e só então expansão organizada de SNPs. Menos relatório cru, mais inteligência aplicada. Nessa ordem.
+    </p>
+  </div>
+  <div class="hero-actions" style="margin-top:0;">
+    <a class="btn btn-primary" href="#visao">Voltar ao topo</a>
+    <a class="btn btn-secondary" href="#roadmap">Rever fases</a>
+  </div>
+</section>
+
+</div>
+</body>
+</html>

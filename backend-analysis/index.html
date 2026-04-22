@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Vitacodex — Análise Técnica do Backend</title>
+<style>
+:root {
+  --bg:#f4f5f5;--panel:#fff;--panel-soft:#eef2f0;--text:#111;--muted:#5f6865;
+  --border:#dbe3df;--green:#18c56e;--gd:#0f8e57;--orange:#f28a22;--blue:#3f6df6;
+  --teal:#12b9b2;--red:#e45858;--purple:#b846ff;--shadow:0 10px 30px rgba(16,24,20,.06);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Inter,ui-sans-serif,system-ui,sans-serif;background:linear-gradient(180deg,#f6f7f7,#f1f5f3);color:var(--text)}
+a{color:inherit;text-decoration:none}
+.page{max-width:1360px;margin:0 auto;padding:28px 28px 60px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-bottom:28px}
+.brand{font-size:32px;letter-spacing:-0.05em;font-weight:400}
+.brand .vita{color:var(--green)}.brand .codex{color:#0b0b0b}
+.nav{display:flex;gap:10px;flex-wrap:wrap}
+.nav-link{padding:10px 14px;border-radius:999px;border:1px solid var(--border);background:rgba(255,255,255,.8);font-size:12px;font-weight:700;color:var(--muted);transition:.15s}
+.nav-link:hover{background:var(--panel-soft);color:var(--text)}
+.nav-link.active{background:var(--green);color:white;border-color:var(--green)}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:28px;box-shadow:var(--shadow)}
+.page-hero{padding:32px 36px;margin-bottom:18px}
+.eyebrow{display:inline-flex;background:#e8f7ee;color:var(--gd);border-radius:999px;padding:7px 12px;font-size:12px;font-weight:700;margin-bottom:16px}
+h1{font-size:42px;line-height:.97;letter-spacing:-0.05em;margin-bottom:12px}
+.hero-sub{font-size:15px;line-height:1.7;color:var(--muted);max-width:68ch}
+.kpi-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+.kpi{background:var(--panel-soft);border:1px solid var(--border);border-radius:18px;padding:14px 16px}
+.kpi .lbl{font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
+.kpi .val{font-size:26px;font-weight:500;letter-spacing:-0.04em;line-height:1}
+.kpi .sub{font-size:11px;color:var(--muted);margin-top:4px}
+.k1 .val{color:var(--gd)}.k2 .val{color:var(--red)}.k3 .val{color:var(--orange)}.k4 .val{color:var(--blue)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px}
+.section-card{padding:22px 24px}
+.sh{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:16px}
+.sh h2{font-size:22px;letter-spacing:-0.04em}
+.sh span{font-size:12px;color:var(--muted)}
+.bar-row{display:grid;grid-template-columns:160px 1fr 48px;gap:10px;align-items:center;margin-bottom:9px}
+.bar-bg{height:7px;background:var(--panel-soft);border-radius:4px;overflow:hidden}
+.bar-fill{height:7px;border-radius:4px}
+.prob-row{display:grid;grid-template-columns:32px 1fr auto;gap:12px;align-items:start;padding:14px 0;border-bottom:1px solid var(--border)}
+.prob-row:last-child{border-bottom:none}
+.pnum{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.pc{background:#fde8e8;color:#a32d2d}.ph{background:#faeeda;color:#854f0b}.pm{background:#e6f1fb;color:#185fa5}
+.prob-title{font-size:14px;font-weight:600;margin-bottom:5px}
+.prob-desc{font-size:13px;color:var(--muted);line-height:1.6}
+.badge{display:inline-block;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:600}
+.bc{background:#fde8e8;color:#a32d2d}.bh{background:#faeeda;color:#854f0b}.bm{background:#e6f1fb;color:#185fa5}.bg{background:#e1f5ee;color:var(--gd)}
+.codeblock{background:#1a1a2e;color:#a8d8a8;border-radius:14px;padding:16px 20px;font-family:ui-monospace,Menlo,monospace;font-size:12px;line-height:1.75;overflow-x:auto;margin:12px 0}
+.cm{color:#5f7a5f}.ck{color:#7eb8f7}.cs{color:#f9c75a}.cf{color:#c792ea}
+.arch-layer{border-radius:12px;padding:11px 14px;border:1px solid var(--border);margin-bottom:8px}
+.al-name{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px}
+.al-tags{display:flex;gap:7px;flex-wrap:wrap}
+.al-tag{padding:3px 9px;border-radius:6px;font-size:12px;font-weight:500}
+.la{background:#e1f5ee;border-color:#9fe1cb}.la .al-name{color:var(--gd)}.la .al-tag{background:#9fe1cb;color:var(--gd)}
+.lb{background:#e6f1fb;border-color:#b5d4f4}.lb .al-name{color:#185fa5}.lb .al-tag{background:#b5d4f4;color:#185fa5}
+.lc{background:#eeedfe;border-color:#afa9ec}.lc .al-name{color:#534ab7}.lc .al-tag{background:#afa9ec;color:#534ab7}
+.ld{background:#faeeda;border-color:#fac775}.ld .al-name{color:#854f0b}.ld .al-tag{background:#fac775;color:#854f0b}
+.le{background:#f0fff8;border-color:#5dcaa5;border-style:dashed}.le .al-name{color:var(--gd)}.le .al-tag{background:#5dcaa5;color:#fff}
+.arr{text-align:center;font-size:15px;color:var(--border);margin:2px 0}
+.stage-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px}
+.stage{border-radius:14px;padding:14px 16px;border:1px solid var(--border)}
+.s-done{background:#e1f5ee;border-color:#9fe1cb}
+.s-now{background:#faeeda;border-color:#fac775}
+.s-next{background:var(--panel-soft)}
+.s-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.s-done .s-label{color:var(--gd)}.s-now .s-label{color:#854f0b}.s-next .s-label{color:var(--muted)}
+.s-item{font-size:12px;color:var(--muted);padding:3px 0;border-bottom:1px solid rgba(0,0,0,.05)}
+.s-item:last-child{border-bottom:none}
+@media(max-width:900px){.grid2{grid-template-columns:1fr}.kpi-strip{grid-template-columns:repeat(2,1fr)}.stage-grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<header class="topbar">
+  <div class="brand"><span class="vita">vita</span><span class="codex">codex</span></div>
+  <nav class="nav">
+    <a class="nav-link" href="/">Roadmap</a>
+    <a class="nav-link" href="/market-analysis">Mercado</a>
+    <a class="nav-link active" href="/backend-analysis">Backend</a>
+    <a class="nav-link" href="/roadmap-vs-backend">Gaps & Prioridades</a>
+  </nav>
+</header>
+
+<div class="card page-hero">
+  <div class="eyebrow">Backend · NutriNest v5 · análise técnica</div>
+  <h1>Score composto 40%. O motor está certo. O roteamento está quebrado.</h1>
+  <p class="hero-sub">O stack FAISS + BM25 + Azure embeddings é a arquitetura correta. O problema é que o intent router detecta o tipo de consulta mas não tem caminho de resposta dedicado — então rsID, gene e categoria retornam 0% de precisão mesmo existindo no índice.</p>
+</div>
+
+<div class="kpi-strip">
+  <div class="kpi k1"><div class="lbl">Medicina preventiva</div><div class="val">52%</div><div class="sub">v5 hybrid (+2.6pp vs lexicon)</div></div>
+  <div class="kpi k2"><div class="lbl">Precisão por keyword</div><div class="val">18%</div><div class="sub">RSID=0% — falha crítica</div></div>
+  <div class="kpi k3"><div class="lbl">Aplicações clínicas</div><div class="val">46%</div><div class="sub">Performance = 20%</div></div>
+  <div class="kpi k4"><div class="lbl">Score composto</div><div class="val">40%</div><div class="sub">Meta para produção: ≥ 75%</div></div>
+</div>
+
+<div class="grid2">
+  <div class="card section-card">
+    <div class="sh"><h2>Recuperação semântica (queries livres)</h2><span>o que funciona bem</span></div>
+    <div class="bar-row"><span style="font-size:12px">Tolerância à lactose</span><div class="bar-bg"><div class="bar-fill" style="width:80%;background:var(--green)"></div></div><span style="font-size:12px;font-weight:600;color:var(--gd)">80%</span></div>
+    <div class="bar-row"><span style="font-size:12px">Metabolismo cafeína</span><div class="bar-bg"><div class="bar-fill" style="width:80%;background:var(--green)"></div></div><span style="font-size:12px;font-weight:600;color:var(--gd)">80%</span></div>
+    <div class="bar-row"><span style="font-size:12px">Sensibilidade insulina</span><div class="bar-bg"><div class="bar-fill" style="width:65%;background:var(--orange)"></div></div><span style="font-size:12px;font-weight:600;color:var(--orange)">65%</span></div>
+    <div class="bar-row"><span style="font-size:12px">Tendência a peso</span><div class="bar-bg"><div class="bar-fill" style="width:40%;background:var(--orange)"></div></div><span style="font-size:12px;font-weight:600;color:var(--orange)">40%</span></div>
+    <div class="bar-row"><span style="font-size:12px">Risco cardiovascular</span><div class="bar-bg"><div class="bar-fill" style="width:0%;background:var(--red)"></div></div><span style="font-size:12px;font-weight:600;color:var(--red)">0%</span></div>
+    <div class="bar-row"><span style="font-size:12px">Metabolismo álcool</span><div class="bar-bg"><div class="bar-fill" style="width:0%;background:var(--red)"></div></div><span style="font-size:12px;font-weight:600;color:var(--red)">0%</span></div>
+
+    <div style="margin-top:16px">
+    <div class="sh"><h2>Precisão por keyword</h2><span>onde está a falha real</span></div>
+    <div class="bar-row"><span style="font-size:12px">rsID lookup</span><div class="bar-bg"><div class="bar-fill" style="width:0%;background:var(--red)"></div></div><span style="font-size:12px;font-weight:600;color:var(--red)">0%</span></div>
+    <div class="bar-row"><span style="font-size:12px">Cromossomo</span><div class="bar-bg"><div class="bar-fill" style="width:0%;background:var(--red)"></div></div><span style="font-size:12px;font-weight:600;color:var(--red)">0%</span></div>
+    <div class="bar-row"><span style="font-size:12px">Categoria</span><div class="bar-bg"><div class="bar-fill" style="width:0%;background:var(--red)"></div></div><span style="font-size:12px;font-weight:600;color:var(--red)">0%</span></div>
+    <div class="bar-row"><span style="font-size:12px">Gene</span><div class="bar-bg"><div class="bar-fill" style="width:20%;background:var(--orange)"></div></div><span style="font-size:12px;font-weight:600;color:var(--orange)">20%</span></div>
+    <div class="bar-row"><span style="font-size:12px">Genótipo (ex: CC)</span><div class="bar-bg"><div class="bar-fill" style="width:40%;background:var(--orange)"></div></div><span style="font-size:12px;font-weight:600;color:var(--orange)">40%</span></div>
+    <div class="bar-row"><span style="font-size:12px">Nível de confiança</span><div class="bar-bg"><div class="bar-fill" style="width:50%;background:var(--blue)"></div></div><span style="font-size:12px;font-weight:600;color:var(--blue)">50%</span></div>
+    </div>
+
+    <div style="margin-top:14px;padding:12px 14px;background:#fde8e8;border-radius:10px;border-left:3px solid var(--red)">
+      <div style="font-size:12px;font-weight:700;color:#a32d2d;margin-bottom:4px">Root cause</div>
+      <div style="font-size:12px;color:var(--muted);line-height:1.6">O <code style="background:#f5d5d5;padding:1px 5px;border-radius:3px;font-size:11px">hybrid_search</code> aplica <code style="background:#f5d5d5;padding:1px 5px;border-radius:3px;font-size:11px">exact_boost</code> (+0.2 rsID, +0.1 gene) depois da fusão RRF — boosteando documentos errados que o BM25 já recuperou mal. O token <code style="background:#f5d5d5;padding:1px 5px;border-radius:3px;font-size:11px">rs4988235</code> não é recuperado pelo BM25 porque o texto do documento é narrativo, não estruturado para lookup exato.</div>
+    </div>
+  </div>
+
+  <div class="card section-card">
+    <div class="sh"><h2>Stack atual</h2><span></span></div>
+    <div class="arch-layer la"><div class="al-name">Dados</div><div class="al-tags"><span class="al-tag">nutrinest_snps_v3.jsonl</span><span class="al-tag">33 SNPs · 132 docs</span><span class="al-tag">lexicon por SNP</span><span class="al-tag">confidence_weight</span></div></div>
+    <div class="arr">↓</div>
+    <div class="arch-layer lb"><div class="al-name">Ingest (v5 hybrid)</div><div class="al-tags"><span class="al-tag">expand_snps_jsonl_to_docs()</span><span class="al-tag">lexicon injetado no texto</span><span class="al-tag">1 parent + N genotype docs</span></div></div>
+    <div class="arr">↓</div>
+    <div class="arch-layer lc"><div class="al-name">Índice</div><div class="al-tags"><span class="al-tag">FAISS IndexFlatIP</span><span class="al-tag">Azure text-embedding-3-large</span><span class="al-tag">BM25 (rank_bm25)</span><span class="al-tag">snps_v5_lex.pkl</span></div></div>
+    <div class="arr">↓</div>
+    <div class="arch-layer ld"><div class="al-name">Busca</div><div class="al-tags"><span class="al-tag">detect_intent() router</span><span class="al-tag">hybrid_search() RRF</span><span class="al-tag">exact_boost pós-RRF</span><span class="al-tag">confidence gating</span></div></div>
+    <div style="margin-top:14px">
+    <div class="sh"><h2>O que está faltando</h2><span></span></div>
+    <div class="arch-layer le"><div class="al-name">Faltando: lookup index</div><div class="al-tags"><span class="al-tag">rsID → doc indices</span><span class="al-tag">gene → rsID list</span><span class="al-tag">category → rsID list</span><span class="al-tag">chromosome → rsID list</span></div></div>
+    <div class="arr" style="color:#18c56e">↓</div>
+    <div class="arch-layer le"><div class="al-name">Faltando: cluster layer</div><div class="al-tags"><span class="al-tag">cluster_definitions.json</span><span class="al-tag">SNP → cluster membership</span><span class="al-tag">cluster scorer</span><span class="al-tag">bridge para UI</span></div></div>
+    <div class="arr" style="color:#18c56e">↓</div>
+    <div class="arch-layer le"><div class="al-name">Faltando: modelo descritivo</div><div class="al-tags"><span class="al-tag">estado de genótipo por usuário</span><span class="al-tag">aggregação de cluster score</span><span class="al-tag">ranker de prioridade</span><span class="al-tag">renderer de linguagem</span></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="card section-card" style="margin-bottom:18px">
+  <div class="sh"><h2>Fixes prioritizados</h2><span>por impacto e custo</span></div>
+  <div class="prob-row">
+    <div class="pnum pc">1</div>
+    <div>
+      <div class="prob-title">Lookup index dedicado (rsID / gene / categoria / cromossomo)</div>
+      <div class="prob-desc">Dict construído no ingest, early-exit no hybrid_search antes de FAISS/BM25. Resolve 0% rsID → ~100%. Uma tarde de trabalho.</div>
+      <div class="codeblock"><span class="cm"># early-exit antes do FAISS/BM25</span>
+<span class="ck">if</span> intent <span class="ck">in</span> (<span class="cs">"rsid"</span>, <span class="cs">"gene"</span>, <span class="cs">"chrom"</span>, <span class="cs">"category"</span>):
+    hits = lookup_idx[intent].get(key, [])
+    <span class="ck">if</span> hits: <span class="ck">return</span> [metas[i] <span class="ck">for</span> i <span class="ck">in</span> hits]</div>
+    </div>
+    <span class="badge bc">Crítico</span>
+  </div>
+  <div class="prob-row">
+    <div class="pnum pc">2</div>
+    <div>
+      <div class="prob-title">Separar texto de embedding do texto BM25</div>
+      <div class="prob-desc">Léxico saí do embed_text, vai apenas para bm25_text. Texto clínico limpo para semântica; sinônimos + aliases para busca léxica.</div>
+      <div class="codeblock"><span class="cm"># Dois campos, não um</span>
+embed_text = <span class="cs">f"SNP {rsid} em {gene} — {trait}. {effect}."</span>
+bm25_text  = <span class="cs">f"{embed_text} {' '.join(synonyms)} {' '.join(related)}"</span></div>
+    </div>
+    <span class="badge bc">Crítico</span>
+  </div>
+  <div class="prob-row">
+    <div class="pnum ph">3</div>
+    <div>
+      <div class="prob-title">Category alias map — linguagem do usuário para categoria interna</div>
+      <div class="prob-desc">"risco cardiovascular" → lipidios_triglicerides. "ansiedade" → neurociencia. Resolve Performance (20%) e Cardiovascular sem novo SNP.</div>
+    </div>
+    <span class="badge bh">Alto</span>
+  </div>
+  <div class="prob-row">
+    <div class="pnum ph">4</div>
+    <div>
+      <div class="prob-title">Two-tier confidence return (primary / exploratory)</div>
+      <div class="prob-desc">Penalidade atual (s -= 0.25) ainda deixa SNPs de baixa confiança aparecer. Primary (conf ≥ 0.6) e Exploratory (hipótese) separados — conecta ao UI de incerteza do Vitacodex.</div>
+    </div>
+    <span class="badge bh">Alto</span>
+  </div>
+  <div class="prob-row" style="border-bottom:none">
+    <div class="pnum pm">5</div>
+    <div>
+      <div class="prob-title">IndexFlatIP → IndexHNSWFlat</div>
+      <div class="prob-desc">Irrelevante agora (132 docs), necessário antes de escalar para 300+ SNPs. Troca de uma linha, custo zero, recall &lt;1% de degradação.</div>
+    </div>
+    <span class="badge bm">Médio</span>
+  </div>
+</div>
+
+<div class="sh" style="margin-bottom:12px"><h2>Sequência de build</h2><span>dependência e impacto</span></div>
+<div class="stage-grid">
+  <div class="stage s-done">
+    <div class="s-label">✓ Feito</div>
+    <div class="s-item">FAISS + Azure embeddings</div>
+    <div class="s-item">BM25 hybrid layer (v5)</div>
+    <div class="s-item">Lexicon no JSONL</div>
+    <div class="s-item">Intent router</div>
+    <div class="s-item">confidence_weight field</div>
+    <div class="s-item">33 SNPs · 6 áreas</div>
+  </div>
+  <div class="stage s-now">
+    <div class="s-label">🔥 Agora</div>
+    <div class="s-item">snp_lookup.py</div>
+    <div class="s-item">Split embed / BM25 text</div>
+    <div class="s-item">Category alias map</div>
+    <div class="s-item">Two-tier result return</div>
+    <div class="s-item">Esperado: keyword 18% → 70%+</div>
+  </div>
+  <div class="stage s-next">
+    <div class="s-label">→ Próximo</div>
+    <div class="s-item">cluster_definitions.json</div>
+    <div class="s-item">SNP → cluster membership</div>
+    <div class="s-item">Cluster scorer</div>
+    <div class="s-item">Bridge para DNA Explorer UI</div>
+  </div>
+  <div class="stage s-next">
+    <div class="s-label">→ Depois</div>
+    <div class="s-item">Lab-genetics fusion</div>
+    <div class="s-item">Weekly priority ranker</div>
+    <div class="s-item">LLM renderer</div>
+    <div class="s-item">Expansão de SNPs</div>
+  </div>
+</div>
+
+</div>
+</body>
+</html>
